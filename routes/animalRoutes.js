@@ -4,20 +4,28 @@ const animalController = require('../controllers/animalController');
 const { isAdmin } = require('../middleware/auth');
 const upload = require('../middleware/upload');
 
-// GET all animals
+// PUBLIC ROUTES
 router.get('/', animalController.getAnimals);
-
-//CREATE new animal WITH photo
-router.post('/', upload.single('photo'), animalController.createAnimal);
-
-//PUT update animal
-router.put('/:id', animalController.updateAnimal);
-
-//GET animal by ID
 router.get('/:id', animalController.getAnimalById);
 
-//DELETE animal by ID
-router.delete('/:id', animalController.deleteAnimal);
+// ADMIN ROUTES
+router.post(
+    '/',
+    isAdmin,
+    upload.single('photo'),
+    animalController.createAnimal
+);
 
+router.put(
+    '/:id',
+    isAdmin,
+    animalController.updateAnimal
+);
+
+router.delete(
+    '/:id',
+    isAdmin,
+    animalController.deleteAnimal
+);
 
 module.exports = router;

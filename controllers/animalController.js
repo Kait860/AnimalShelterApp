@@ -42,23 +42,35 @@ exports.createAnimal = (req, res) => {
 
 // UPDATE animal
 exports.updateAnimal = (req, res) => {
-    const { id } = req.params;
-    const {name, breed, age, temperament, medicalNeeds, adoptionStatus } = req.body;
+    const animalId = req.params.id;
+    const { name, age, breed } = req.body;
 
-    const sql =
-        'UPDATE Animal SET name = ?, breed = ?, age = ?, temperament = ?, medicalNeeds = ?, adoptionStatus = ? WHERE id = ?';
+    const sql = `
+        UPDATE Animal
+        SET name = ?, age = ?, breed = ?
+        WHERE animalId = ?
+    `;
 
     db.query(
         sql,
-        [name, breed, age, temperament, medicalNeeds, adoptionStatus, id],
-        (err) => {
+        [name, age, breed, animalId],
+        (err, result) => {
             if (err) {
-                return res.status(500).json({ error: err });
+                return res.status(500).json({ error: err.message });
             }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ message: 'Animal not found' });
+            }
+
             res.json({ message: 'Animal updated successfully' });
         }
     );
 };
+
+
+
+
 
 //GET animal by ID
 exports.getAnimalById = (req, res) => {
@@ -79,16 +91,14 @@ exports.getAnimalById = (req, res) => {
 // DELETE animal
 exports.deleteAnimal = (req, res) => {
     const { id } = req.params;
-
     const sql = "DELETE FROM Animal WHERE animalId = ?";
 
     db.query(sql, [id], (err, results) => {
         if (err) return res.status(500).json({ error: err });
-
         if (results.affectedRows === 0) {
             return res.status(404).json({ message: "Animal not found" });
         }
-
         res.json({ message: "Animal deleted successfully" });
     });
 };
+

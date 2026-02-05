@@ -1,17 +1,20 @@
 const express = require('express');
 require('dotenv').config();
+
+console.log('DB PASSWORD:', process.env.DB_PASSWORD ? 'Loaded' : 'Not Loaded');
+
 const animalRoutes = require('./routes/animalRoutes');
 
 const app = express();
 app.use(express.json());
 
-//API routes
+// API routes
 app.use('/animals', animalRoutes);
 
-//make images accessible
+// make images accessible
 app.use('/uploads', express.static('uploads'));
 
-//Test route
+// Test route
 app.get('/', (req, res) => {
     res.send("Animal Shelter API is running");
 });
