@@ -1,7 +1,7 @@
 # Animal Shelter Web Application (Backend)
 
 ## Project Overview
-This project is a backend web application developed as a capstone project for CSC480. The system is designed to support animal shelter operations by providing a centralized and reliable way to manage animal records and adoption-related workflows.
+This project is a backend web application developed to support animal shelter operations by providing a centralized and reliable way to manage animal records and adoption-related workflows.
 
 The application exposes RESTful API endpoints that allow public users to view available animals while restricting administrative actions, such as creating, updating, or deleting animal records, to authorized users.
 
