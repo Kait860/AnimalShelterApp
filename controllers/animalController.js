@@ -1,6 +1,6 @@
 const db = require("../db/connection");
 
-// GET all animals
+// Retrieve all animal records from the database.
 exports.getAnimals = (req, res) => {
     const sql = "SELECT * FROM Animal";
 
@@ -9,7 +9,7 @@ exports.getAnimals = (req, res) => {
             return res.status(500).json({ error: err });
         }
 
-        // Add full URL to each animal
+        // Build a full photo URL so the frontend can display uploaded images.
         const animalsWithFullURL = results.map(animal => {
             return {
                 ...animal,
@@ -21,9 +21,10 @@ exports.getAnimals = (req, res) => {
     });
 };
 
-// CREATE new animal
+// Insert a new animal record into the database.
 exports.createAnimal = (req, res) => {
     const {name, breed, age, temperament, medicalNeeds, adoptionStatus } = req.body;
+    // Save the uploaded file path if a photo was included in the request.
     const photoPath = req.file ? req.file.path : null;
     const sql =
         'INSERT INTO Animal (name, breed, age, temperament, medicalNeeds, adoptionStatus, photoPath) VALUES (?, ?, ?, ?, ?, ?, ?)';
@@ -40,7 +41,7 @@ exports.createAnimal = (req, res) => {
     );
 };
 
-// UPDATE animal
+// Update the selected animal's basic information.
 exports.updateAnimal = (req, res) => {
     const animalId = req.params.id;
     const { name, age, breed } = req.body;
@@ -68,11 +69,7 @@ exports.updateAnimal = (req, res) => {
     );
 };
 
-
-
-
-
-//GET animal by ID
+// Retrieve one animal record by its ID.
 exports.getAnimalById = (req, res) => {
     const{id} = req.params;
     const sql = 'SELECT * FROM Animal WHERE animalId = ?';
@@ -88,7 +85,7 @@ exports.getAnimalById = (req, res) => {
     });
 };
 
-// DELETE animal
+// Delete an animal record from the database.
 exports.deleteAnimal = (req, res) => {
     const { id } = req.params;
     const sql = "DELETE FROM Animal WHERE animalId = ?";

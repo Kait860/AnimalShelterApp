@@ -4,11 +4,11 @@ const animalController = require('../controllers/animalController');
 const { isAdmin } = require('../middleware/auth');
 const upload = require('../middleware/upload');
 
-// PUBLIC ROUTES
+// Public routes allow anyone to view animal records.
 router.get('/', animalController.getAnimals);
 router.get('/:id', animalController.getAnimalById);
 
-// ADMIN ROUTES
+// Admin routes are used to create, update, and delete animal records.
 router.post(
     '/',
     isAdmin,
